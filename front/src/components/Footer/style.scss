@@ -1,0 +1,29 @@
+.Footer {
+    margin-top: 4rem;
+    width: 100%;
+    color : white;
+    background-color: black;
+
+    .FooterContainer {
+        height: 100%;
+        height: 140px;
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+
+        .FooterContainerAbout > h3 {
+            font-size: 2rem;
+            cursor: pointer;
+            
+        }
+    }
+}
+
+/*#######RESPONSIVE MOBILE##############*/
+
+@media screen and (max-width: 767px) {
+    .FooterContainer {
+        display: flex;
+        flex-direction: column;
+    }
+}

@@ -1,0 +1,30 @@
+@import 'reset';
+@import 'vars';
+
+body {
+    margin: 0;
+    font-family: 'Ubuntu', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen'
+        , 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+        sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    //background-color: rgb(221, 221, 221);
+    background: no-repeat 100% fixed linear-gradient(40deg,#ffd86f,#fc6262) !important;
+    //background-image: url(../assets/images/icongrey.png) ;
+    //background-position: fixed;
+    //background-repeat: no-repeat;
+    //background-size: 50%;
+    font-family: 'Franklin Gothic ', 'Arial Narrow', Arial, sans-serif;
+
+    
+
+    #root {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+    }
+}
+
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
