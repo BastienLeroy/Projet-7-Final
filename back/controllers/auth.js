@@ -9,7 +9,7 @@ exports.signup = async (req, res, next) => {
         const { email, password } = req.body;// Déclaration des constantes = contenu du body
         const passwordHash = await bcrypt.hash(password, 10);
 
-        let sql = "INSERT INTO `users` (email, password) VALUES (?, ?)";//Requete MySql pour insérer un nouvel utilisateur dans la table "users"
+        let sql = "INSERT INTO `users` (email, password) VALUES (?, ?)"; //Requete MySql pour insérer un nouvel utilisateur dans la table "users"
         sql = mysql.format(sql, [email, passwordHash]);
         
         dbConnect.query(sql, (err, result) => {
@@ -20,13 +20,13 @@ exports.signup = async (req, res, next) => {
             }
         })
     } catch(err) {
-        res.status(400).json({ error: err })
+        res.status(400).json({ error: err });
     }
 };
 
 //Fonction pour la connexion d'un utilisateur existant 
 exports.signin = (req, res, next) => {
-    const { email, password } = req.body// Déclaration des constantes = contenu du body (email et password) 
+    const { email, password } = req.body; // Déclaration des constantes = contenu du body (email et password)
     let sql = 'SELECT * FROM users WHERE email = ?';
     sql = mysql.format(sql, [email]);
 
@@ -52,7 +52,7 @@ exports.signin = (req, res, next) => {
 
                     res.cookie('access_token', token, {
                         maxAge: 86400000,
-                        httpOnly: true,
+                        httpOnly: true, // cookie inaccessible aux scripts côté client
                     });
                     res.status(200).json({
                         id,

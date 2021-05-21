@@ -12,6 +12,9 @@ const initialState = {
     name: ""
 };
 
+/**
+ * On définit le comportement notre "reducer".
+ */
 const userReducer = (state, action) => {
     switch (action.type) {
         case "SETVALUES":
@@ -31,8 +34,11 @@ const userReducer = (state, action) => {
     }
 };
 
+/** 
+ * On exporte notre "context".
+*/
 export const UserContextProvider = props => {
-    const [state, dispatch] = useReducer(userReducer, initialState);
+    const [state, dispatch] = useReducer(userReducer, initialState); // On utilise useReducer pour modifier les valeurs initial de "initialState"
 
     return (
         <UserContext.Provider value={[state, dispatch]}>

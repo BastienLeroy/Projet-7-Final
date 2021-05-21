@@ -8,8 +8,8 @@ import './style.scss';
 import { UserContext } from '../../context/userContext';
 
 const Profile = () => {
-    const [userState, userDispatch] = useContext(UserContext);
-    const history = useHistory();
+    const [userState, userDispatch] = useContext(UserContext); // On importe le "context".
+    const history = useHistory(); // On utilise le hook "useHistory".
 
     const [email, setEmail] = useState(userState.email);
     const [password, setPassword] = useState('');
@@ -18,6 +18,9 @@ const Profile = () => {
     const [imageUrl, setImageUrl] = useState(userState.image_url);
     const [file, setFile] = useState([]);
 
+    /**
+     * Permet la soumission du formulaire.
+     */
     const handleOnClickSubmitButton = async (e) => {
         e.preventDefault();
 
@@ -47,6 +50,7 @@ const Profile = () => {
         );
 
         if (response.status === 200) {
+            // On enregistre les données dans le "context".
             userDispatch({
                 type: 'SETVALUES',
                 isLogged: userState.isLogged,
@@ -61,6 +65,9 @@ const Profile = () => {
         }
     };
 
+    /**
+     * Permet de supprimer son compte.
+     */
     const handleOnClickDeletetButton = async (e) => {
         const response = await axios.delete(
             'http://localhost:5000/api/user/delete',
@@ -74,7 +81,7 @@ const Profile = () => {
         );
 
         if (response.status === 200) {
-            history.push('/');
+            history.push('/'); // Redirige vers la page d'authentification.
         }
     };
 

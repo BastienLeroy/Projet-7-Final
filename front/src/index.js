@@ -11,6 +11,9 @@ import './styles/index.scss';
 import { UserContextProvider } from './context/userContext';
 import * as serviceWorker from './serviceWorker';
 
+/**
+ * On englobe le composant App avec "UserContextProvider" afin que toute l'application est accès au context.
+ */
 const rootReactElement = (
     <React.StrictMode>
         <Router>

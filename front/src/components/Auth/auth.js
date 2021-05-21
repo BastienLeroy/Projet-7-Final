@@ -9,22 +9,17 @@ import './style.scss';
 import { UserContext } from '../../context/userContext';
 
 const Auth = () => {
-    const [userState, userDispatch] = useContext(UserContext);
-    const history = useHistory();
+    const [userState, userDispatch] = useContext(UserContext); // On importe le "context"
+    const history = useHistory(); // On utilise le hook "useHistory".
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [emailSignup, setEmailSignup] = useState('');
     const [passwordSignup, setPasswordSignup] = useState('');
 
-    /*
-    useEffect(() => {
-        if (userState.isLogged) {
-            history.push('/home');
-        }
-    }, [])
-    */
-
+    /**
+     * Fonction permettant de gérer les soumissions des formulaires "signin" et "signup".
+     */
     const handleOnSubmit = async (e) => {
         e.preventDefault();
 
@@ -47,6 +42,7 @@ const Auth = () => {
                 );
 
                 if (responseSignin.status === 200) {
+                    // On enregistre les données dans le context.
                     userDispatch({
                         type: 'SETVALUES',
                         isLogged: true,
@@ -57,7 +53,7 @@ const Auth = () => {
                         firstname: responseSignin.data.firstname,
                         name: responseSignin.data.name
                     })
-                    history.push('/home');
+                    history.push('/home'); // Redirige vers la page "home".
                 }
                 break;
 
@@ -67,6 +63,9 @@ const Auth = () => {
                     password: passwordSignup
                 };
 
+                /**
+                 * Crée le compte utilisateur.
+                 */
                 const responseSignup = await axios.post(
                     'http://localhost:5000/api/auth/signup',
                     dataSignup,
@@ -77,6 +76,9 @@ const Auth = () => {
                 );
 
                 if (responseSignup.status === 201) {
+                    /**
+                     * On connecte l'utilisateur.
+                     */
                     const response = await axios.post(
                         'http://localhost:5000/api/auth/signin',
                         dataSignup,
@@ -87,6 +89,7 @@ const Auth = () => {
                     );
 
                     if (response.status === 200) {
+                        // On enregistre les données dans le context.
                         userDispatch({
                             type: 'SETVALUES',
                             isLogged: true,
@@ -97,7 +100,7 @@ const Auth = () => {
                             firstname: response.data.firstname,
                             name: response.data.name
                         })
-                        history.push('/profile');
+                        history.push('/profile'); // Redirige vers la page "profile".
                     }
                 }
                 break;

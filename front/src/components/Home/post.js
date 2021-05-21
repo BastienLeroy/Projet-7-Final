@@ -10,7 +10,7 @@ import './style.scss';
 
 const Post = ({ dataPost, userImage, userId, userIsMod, getPosts }) => {
 
-    const postImageEdit = useRef(null);
+    const postImageEdit = useRef(null); // Permet de faire référence à un élément du DOM.
     const [comments, setComments] = useState([]);
     const [postTextareaValue, setPostTextareaValue] = useState(dataPost.content)
     const [commentTextareaValue, setCommentTextareaValue] = useState('');
@@ -22,10 +22,18 @@ const Post = ({ dataPost, userImage, userId, userIsMod, getPosts }) => {
 
     useEffect(() => {
         if (userId === dataPost.user_id || userIsMod) {
+            /**
+             * Si le post à été rédigé par l'utilisateur connecté ou si l'utilisateur est modérateur
+             * alors il peut modifier ou supprimer le post.
+             * On modifie la valeur de "userCanEdit".
+             */
             setUserCanEdit(true);
         }
     }, []);
 
+    /**
+     * Permet d'afficher ou non les commentaires.
+     */
     useEffect(() => {
         if (displayComments) {
             handleOnClickDisplayComments();
@@ -34,6 +42,9 @@ const Post = ({ dataPost, userImage, userId, userIsMod, getPosts }) => {
         }
     }, [displayComments]);
 
+    /**
+     * Permet de récupérer les commentaires d'un post.
+     */
     const handleOnClickDisplayComments = async () => {
         setIsLoading(true);
         const getComments = await axios.get(
@@ -41,16 +52,17 @@ const Post = ({ dataPost, userImage, userId, userIsMod, getPosts }) => {
             {
                 withCredentials: true
             }
-            );
+        );
 
         if (getComments.status === 200) {
             setComments(getComments.data);
-            setIsLoading(false);
-        } else {
-            setIsLoading(false);
         }
+        setIsLoading(false);
     };
 
+    /**
+     * Permet d'ajouter un commentaire
+     */
     const handleOnClickAddComment = async (e) => {
         e.preventDefault();
         setIsLoading(true);
@@ -71,20 +83,15 @@ const Post = ({ dataPost, userImage, userId, userIsMod, getPosts }) => {
         );
 
         if (response.status === 201) {
-            const getComments = await axios.get(
-                `http://localhost:5000/api/comment/getAllComments?&id=${dataPost.id}&userId=${userId}`,
-                {
-                    withCredentials: true
-                }
-            );
-            setComments(getComments.data);
+            await handleOnClickDisplayComments();
             setCommentTextareaValue('');
-            setIsLoading(false);
-        } else {
-            setIsLoading(false);
         }
+        setIsLoading(false);
     };
 
+    /**
+     * Permet de valider la modification d'un post.
+     */
     const handleOnClickValidPostButton = async () => {
 
         const dataInput = {
@@ -113,6 +120,9 @@ const Post = ({ dataPost, userImage, userId, userIsMod, getPosts }) => {
         }
     };
 
+    /**
+     * Permet de supprimer un post.
+     */
     const handleOnClickRemovePostButton = async () => {
         const response = await axios.delete(
             'http://localhost:5000/api/post/deletePost',

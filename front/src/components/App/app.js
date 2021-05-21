@@ -16,18 +16,24 @@ import { UserContext } from '../../context/userContext';
 
 
 const App = () => {
-    const [userState, userDispatch] = useContext(UserContext);
+    const [userState, userDispatch] = useContext(UserContext); // On importe le "context".
     const { isLogged } = userState;
     const [isLoading, setIsLoading] = useState(true);
 
-    const getData = async () => {
+    /**
+     * Fonction pour reconnecter l'utlisateur, si il à un cookie de session, via un appel à l'API.
+     */
+    const checkLogged = async () => {
         const response = await axios.get(
             'http://localhost:5000/api/auth/checklogged',
             {
-                'withCredentials': true
+                'withCredentials': true // On transmet les cookies.
             }
         );
 
+        /**
+         * Si la réponse est valide on enregistre les valeurs dans le "context".
+         */
         if (response.status === 200 && !response.data.error) {
             userDispatch({
                 type: 'SETVALUES',
@@ -40,28 +46,33 @@ const App = () => {
                 name: response.data.name
             });
         }
-        setIsLoading(false);
+        setIsLoading(false); // On désactive l'affichage du spinner.
     };
 
+    /**
+     * On utilise le hook "useEffect" uniquement au montage du composant "App".
+     */
     useEffect(() => {
-        getData();
+        checkLogged();
     }, []);
 
     return (
         <div className="App">
             <Header />
             {isLoading
-                ? <div className="SpinnerContainer">
-                    <div className='spinnerLoader' />
-                    <p>Chargement des données...</p>
-                </div>
-                : <div className="Container">
-                    <Switch>
-                        <Route path={'/'} component={Auth} exact />
-                        {isLogged ? <Route path={'/home'} component={Home} exact /> : <Redirect to='/' />}
-                        {isLogged ? <Route path={'/profile'} component={Profile} exact /> : <Redirect to='/' />}
-                    </Switch>
-                </div>
+                ?
+                    <div className="SpinnerContainer">
+                        <div className='spinnerLoader' />
+                        <p>Chargement des données...</p>
+                    </div>
+                :
+                    <div className="Container">
+                        <Switch>
+                            <Route path={'/'} component={Auth} exact />
+                            {isLogged ? <Route path={'/home'} component={Home} exact /> : <Redirect to='/' />}
+                            {isLogged ? <Route path={'/profile'} component={Profile} exact /> : <Redirect to='/' />}
+                        </Switch>
+                    </div>
             }
             <Footer />
         </div>

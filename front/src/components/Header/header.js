@@ -13,7 +13,7 @@ import './style.scss';
 
 
 const Header = () => {
-    const history = useHistory();
+    const history = useHistory(); // On utilise le hook "useHistory" depuis react-router-dome
     const [userState, userDispatch] = useContext(UserContext);
     const { isLogged } = userState;
 

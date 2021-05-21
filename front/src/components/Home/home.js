@@ -19,6 +19,11 @@ const Home = () => {
     const [file, setFile] = useState([]);
     const [textareaInputValue, setTextareaInputValue] = useState('');
 
+    /**
+     * On récupère un nombre de posts définit par le paramètre "pagination";
+     * @param {number} pagination
+     * @param {Bool} restart
+     */
     const getPosts = async (pagination, restart) => {
         const getPosts = await axios.get(
             `http://localhost:5000/api/post/getAllPosts?&offset=${pagination}&userId=${userState.id}`,
@@ -27,6 +32,10 @@ const Home = () => {
             }
         );
 
+        /**
+         * Si "restart", on souhaite récupéré uniquement les premiers post comme au chargement du composant.
+         * Sinon on ajoute les posts reçus à ceux déjà présent.
+         */
         if (restart) {
             setPosts(getPosts.data);
         } else {
@@ -38,6 +47,9 @@ const Home = () => {
         setPaginationPosts(paginationPosts + 10);
     };
 
+    /**
+     * Fonction permettant d'ajouter un post.
+     */
     const handleOnClickSubmitPost = async (e) => {
         e.preventDefault();
 
@@ -62,12 +74,16 @@ const Home = () => {
         );
 
         if (response.status === 201) {
-            postImage.current.value = null;
-            setTextareaInputValue('');
-            getPosts(0, true);
+            postImage.current.value = null; // Réinitialise la valeur de l'input "file".
+            setTextareaInputValue(''); // On vide la valeur de "textarea".
+            getPosts(0, true); // On récupère les premiers posts.
         }
     };
 
+    /**
+     * On appelle la fonction "getPosts()" au chargement du composant et à chaque modification
+     * de la variable "paginationPosts".
+     */
     useEffect(() => {
         getPosts(paginationPosts, false);
     }, [paginationPosts]);

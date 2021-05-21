@@ -13,10 +13,18 @@ const Comment = ({ comment, reFetchComments, userId, userIsMod }) => {
 
     useEffect(() => {
         if (userId === comment.user_id || userIsMod) {
+            /**
+             * Si le commentaire à été rédigé par l'utilisateur connecté ou si l'utilisateur est modérateur
+             * alors il peut modifier ou supprimer le commentaire.
+             * On modifie la valeur de "userCanEdit".
+             */
             setUserCanEdit(true);
         }
     }, []);
 
+    /**
+     * Permet de valider la modification d'un commentaire.
+     */
     const handleOnClickValidCommentButton = async () => {
         const dataEditComment = {
             id: comment.id,
@@ -38,6 +46,9 @@ const Comment = ({ comment, reFetchComments, userId, userIsMod }) => {
         }
     };
 
+    /**
+     * Permet de supprimer un commentaire.
+     */
     const handleOnClickRemoveCommentButton = async () => {
         const response = await axios.delete(
             'http://localhost:5000/api/comment/deleteComment',
