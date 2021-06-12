@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTrashAlt, faEdit, faCheck } from '@fortawesome/free-solid-svg-icons';
+import { faTrashAlt, faEdit, faCheck, faHeart } from '@fortawesome/free-solid-svg-icons';
 
 import Comment from './comment';
 
@@ -148,6 +148,7 @@ const Post = ({ dataPost, userImage, userId, userIsMod, getPosts }) => {
                     <img src={dataPost.userImage} />
                     <p>{dataPost.firstname} {dataPost.name}</p>
                 </div>
+                <FontAwesomeIcon icon={faHeart} className="Like_Button_Icon" />
                 <p className="Post_Info_TitleImg_Date">{dataPost.date} {dataPost.time}</p>
             </div>
             <div className="Post_Img">

@@ -102,6 +102,11 @@
                     justify-content: space-between;
                     padding: .75rem;
                     align-items: center;
+                    
+                    .Like_Button_Icon {
+                        font-size: 2rem;
+                        color: grey;
+                    }
 
                     .Post_Info_TitleImg {
                         display: flex;
